@@ -18,7 +18,7 @@ type Issue struct {
 	MonitoringSystem      string         `json:"monitoringSystem"`
 	IssueCause            string         `json:"issueCase" gorm:"not null"`
 	ResponsibleDepartment string         `json:"responsibleDepartment" gorm:"not null"`
-	Status                string         `json:"status" gorm:"type:enum('handling', 'completed');default:'handling'"`
+	Status                string         `json:"status" gorm:"default:'handling'"`
 	CreatedAt             time.Time      `json:"createdAt"`
 	UpdatedAt             time.Time      `json:"updatedAt"`
 	DeletedAt             time.Time      `json:"deletedAt"`
