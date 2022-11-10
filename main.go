@@ -17,7 +17,6 @@ func init() {
 }
 
 func main() {
-
 	router := gin.New()
 	router.Use(gin.Recovery())
 
