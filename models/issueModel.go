@@ -8,7 +8,7 @@ import (
 )
 
 type Issue struct {
-	ID                    uuid.UUID      `json:"id" gorm:"type:uuid;primaryKey;not null"`
+	IssueID               uuid.UUID      `json:"issueId" gorm:"type:uuid;primaryKey;not null"`
 	Date                  datatypes.Date `json:"date" gorm:"not null"`
 	Hour                  datatypes.Time `json:"hour" gorm:"not null"`
 	Unit                  string         `json:"unit" gorm:"not null"`
