@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/DavidKorochik/pikud-darom-backend/db"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -17,6 +18,8 @@ func init() {
 }
 
 func main() {
+	db.DBConnection()
+
 	router := gin.New()
 	router.Use(gin.Recovery())
 
