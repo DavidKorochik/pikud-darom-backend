@@ -23,3 +23,16 @@ type Issue struct {
 	UpdatedAt             time.Time      `json:"updatedAt"`
 	DeletedAt             time.Time      `json:"deletedAt"`
 }
+
+type UpdatedIssueBody struct {
+	Date                  datatypes.Date `json:"date"`
+	Hour                  datatypes.Time `json:"hour"`
+	Unit                  string         `json:"unit"`
+	Topic                 string         `json:"topic"`
+	SpecificTopic         string         `json:"specificTopic"`
+	MonitoringType        string         `json:"monitoringType"`
+	MonitoringSystem      string         `json:"monitoringSystem"`
+	IssueCause            string         `json:"issueCase"`
+	ResponsibleDepartment string         `json:"responsibleDepartment"`
+	Status                string         `json:"status"`
+}
