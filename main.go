@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/DavidKorochik/pikud-darom-backend/db"
+	"github.com/DavidKorochik/pikud-darom-backend/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -20,8 +21,9 @@ func init() {
 func main() {
 	db.DBConnection()
 
-	router := gin.New()
-	router.Use(gin.Recovery())
+	router := gin.Default()
+
+	routes.IssueRoutes(router)
 
 	port := os.Getenv("PORT")
 

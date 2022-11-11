@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/DavidKorochik/pikud-darom-backend/db"
@@ -11,10 +10,7 @@ import (
 
 func GetAllIssues(c *gin.Context) {
 	issues := []models.Issue{}
-
-	if err := db.DB.Find(&issues); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Couldn't find issues"})
-	}
+	db.DB.Find(&issues)
 
 	c.JSON(http.StatusOK, gin.H{"issues": issues})
 }
@@ -23,16 +19,14 @@ func CreateIssue(c *gin.Context) {
 	issue := models.Issue{}
 
 	if err := c.BindJSON(&issue); err != nil {
-		log.Fatal(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "There is an error with the body"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 	}
 
-	if err := db.DB.Create(&issue); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't create issue"})
-	}
-
+	db.DB.Create(&issue)
 	c.JSON(http.StatusCreated, gin.H{"issues": issue})
 }
+
+// Keep the updating from here!!!
 
 func UpdateIssue(c *gin.Context) {
 	id := getParamData(c, "id")
