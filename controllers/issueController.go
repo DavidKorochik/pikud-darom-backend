@@ -10,7 +10,10 @@ import (
 
 func GetAllIssues(c *gin.Context) {
 	issues := []models.Issue{}
-	db.DB.Find(&issues)
+
+	if err := db.DB.Find(&issues); err.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't find issues"})
+	}
 
 	c.JSON(http.StatusOK, gin.H{"issues": issues})
 }
