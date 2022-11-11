@@ -35,7 +35,7 @@ func CreateIssue(c *gin.Context) {
 }
 
 func UpdateIssue(c *gin.Context) {
-	id := c.Param("id")
+	id := getParamData(c, "id")
 	issue := &models.UpdatedIssueBody{}
 
 	if err := c.BindJSON(&issue); err != nil {
@@ -52,7 +52,7 @@ func UpdateIssue(c *gin.Context) {
 }
 
 func DeleteIssue(c *gin.Context) {
-	id := c.Param("id")
+	id := getParamData(c, "id")
 
 	if err := db.DB.Delete(&models.Issue{}, id); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't Delete or Find the issue"})
@@ -71,4 +71,8 @@ func findIssueById(id string, c *gin.Context) *models.Issue {
 	}
 
 	return issue
+}
+
+func getParamData(c *gin.Context, param string) string {
+	return c.Param(param)
 }
