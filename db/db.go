@@ -4,13 +4,14 @@ import (
 	"log"
 	"os"
 
+	"github.com/DavidKorochik/pikud-darom-backend/config"
 	"github.com/DavidKorochik/pikud-darom-backend/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var err error
 
 func init() {
 	err := godotenv.Load()
@@ -22,15 +23,13 @@ func init() {
 
 func DBConnection() {
 	dsn := os.Getenv("DB_URL")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	config.DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("Error has occured while trying to connect to the database")
 	}
 
-	db.AutoMigrate(&models.Issue{}, &models.User{})
-
-	DB = db
+	config.DB.AutoMigrate(&models.Issue{}, &models.User{})
 
 	log.Print("Connected to the database")
 }

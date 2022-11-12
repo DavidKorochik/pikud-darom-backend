@@ -8,7 +8,7 @@ import (
 )
 
 type Issue struct {
-	IssueID               uuid.UUID `gorm:"type:uuid;primaryKey;not null;default:uuid_generate_v4()"`
+	IssueID               uuid.UUID `json:"issue_id" gorm:"type:uuid;primary_key;not null;default:uuid_generate_v4()"`
 	Date                  string    `json:"date" gorm:"not null"`
 	Hour                  string    `json:"hour" gorm:"not null"`
 	Unit                  string    `json:"unit" gorm:"not null"`
@@ -24,6 +24,19 @@ type Issue struct {
 	DeletedAt             time.Time `json:"deleted_at"`
 }
 
+type CreateIssueBody struct {
+	Date                  string `json:"date" binding:"required"`
+	Hour                  string `json:"hour" binding:"required"`
+	Unit                  string `json:"unit" binding:"required"`
+	Topic                 string `json:"topic" binding:"required"`
+	SpecificTopic         string `json:"specific_topic" binding:"required"`
+	MonitoringType        string `json:"monitoring_type" binding:"required"`
+	MonitoringSystem      string `json:"monitoring_system" binding:"required"`
+	IssueCause            string `json:"issue_cause" binding:"required"`
+	ResponsibleDepartment string `json:"responsible_department" binding:"required"`
+	Status                string `json:"status"`
+}
+
 type UpdatedIssueBody struct {
 	Date                  string `json:"date"`
 	Hour                  string `json:"hour"`
@@ -35,6 +48,10 @@ type UpdatedIssueBody struct {
 	IssueCause            string `json:"issue_cause"`
 	ResponsibleDepartment string `json:"responsible_department"`
 	Status                string `json:"status"`
+}
+
+func (i *Issue) TableName() string {
+	return "issue"
 }
 
 func (i *Issue) BeforeCreate(tx *gorm.DB) error {
