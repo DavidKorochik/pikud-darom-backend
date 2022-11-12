@@ -20,14 +20,14 @@ func GetAllIssues(c *gin.Context) {
 }
 
 func CreateIssue(c *gin.Context) {
-	issueBody := models.CreateIssueBody{}
+	createIssueBody := models.CreateIssueBody{}
 
-	if err := c.ShouldBindJSON(&issueBody); err != nil {
+	if err := c.ShouldBindJSON(&createIssueBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	newIssue := models.Issue{Date: issueBody.Date, Hour: issueBody.Hour, Unit: issueBody.Unit, Topic: issueBody.Topic, SpecificTopic: issueBody.SpecificTopic, MonitoringType: issueBody.MonitoringType, MonitoringSystem: issueBody.MonitoringSystem, IssueCause: issueBody.IssueCause, ResponsibleDepartment: issueBody.ResponsibleDepartment, Status: issueBody.Status}
+	newIssue := models.Issue{Date: createIssueBody.Date, Hour: createIssueBody.Hour, Unit: createIssueBody.Unit, Topic: createIssueBody.Topic, SpecificTopic: createIssueBody.SpecificTopic, MonitoringType: createIssueBody.MonitoringType, MonitoringSystem: createIssueBody.MonitoringSystem, IssueCause: createIssueBody.IssueCause, ResponsibleDepartment: createIssueBody.ResponsibleDepartment, Status: createIssueBody.Status}
 	config.DB.Create(&newIssue)
 
 	c.JSON(http.StatusCreated, newIssue)
@@ -37,44 +37,41 @@ func CreateIssue(c *gin.Context) {
 
 func UpdateIssue(c *gin.Context) {
 	id := getParamData(c, "id")
-	issue := models.UpdatedIssueBody{}
+	updateIssueBody := models.UpdatedIssueBody{}
+	issue := findIssueById(id, c)
 
-	if err := c.BindJSON(&issue); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "There is an error with the issue body"})
+	if err := c.ShouldBindJSON(&updateIssueBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := config.DB.Model(&models.Issue{}).Where("issueId = ?", id).Updates(&issue); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't Update or Find the issue"})
+	if err := config.DB.Model(&issue).Updates(models.Issue{Date: updateIssueBody.Date, Hour: updateIssueBody.Hour, Unit: updateIssueBody.Unit, Topic: updateIssueBody.Topic, SpecificTopic: updateIssueBody.SpecificTopic, MonitoringType: updateIssueBody.MonitoringType, MonitoringSystem: updateIssueBody.MonitoringSystem, IssueCause: updateIssueBody.IssueCause, ResponsibleDepartment: updateIssueBody.ResponsibleDepartment, Status: updateIssueBody.Status}).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	updatedIssue := findIssueById(id, c)
-
-	c.JSON(http.StatusOK, updatedIssue)
+	c.JSON(http.StatusOK, issue)
 }
 
 func DeleteIssue(c *gin.Context) {
 	id := getParamData(c, "id")
+	deletedIssue := findIssueById(id, c)
 
-	if err := config.DB.Delete(&models.Issue{}, id); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't Delete or Find the issue"})
+	if err := config.DB.Delete(&deletedIssue).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	deletedIssue := findIssueById(id, c)
 
 	c.JSON(http.StatusOK, deletedIssue)
 }
 
 // Helpers
 
-func findIssueById(id string, c *gin.Context) *models.Issue {
-	issue := &models.Issue{}
+func findIssueById(id string, c *gin.Context) models.Issue {
+	issue := models.Issue{}
 
-	if err := config.DB.Find(&issue, id); err != nil {
+	if err := config.DB.Where("issue_id = ?", id).First(&issue).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Couldn't find the issue"})
-		return nil
 	}
 
 	return issue

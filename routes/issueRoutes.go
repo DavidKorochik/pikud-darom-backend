@@ -7,7 +7,7 @@ import (
 
 func IssueRoutes(router *gin.Engine) {
 	router.GET("/api/issues", controllers.GetAllIssues)
-	router.POST("/api/issues", controllers.CreateIssue)
+	router.PUT("/api/issues", controllers.CreateIssue)
 	router.PATCH("/api/issues/:id", controllers.UpdateIssue)
 	router.DELETE("/api/issues/:id", controllers.DeleteIssue)
 }
