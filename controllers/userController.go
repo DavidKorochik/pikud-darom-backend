@@ -47,6 +47,11 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	if err := ifUserExistsThrowErr(newUser.ArmyEmail, c); err != nil {
+		helpers.DisplayErrorMsg(c, err)
+		return
+	}
+
 	tokenStr, err := generateToken(newUser)
 
 	if err != nil {
@@ -106,4 +111,20 @@ func findUserByEmail(email string, c *gin.Context) models.User {
 	}
 
 	return user
+}
+
+func ifUserExistsThrowErr(email string, c *gin.Context) error {
+	user := models.User{}
+
+	result := config.DB.Where("army_email = ?", email).First(&user)
+
+	if result.Error != nil {
+		return result.Error
+	}
+
+	if result.RowsAffected > 0 {
+		return nil
+	}
+
+	return nil
 }
