@@ -59,6 +59,8 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	c.SetCookie("x-auth-token", tokenStr, 3600*24*30, "", "", false, true)
+
 	c.JSON(http.StatusCreated, tokenStr)
 }
 
