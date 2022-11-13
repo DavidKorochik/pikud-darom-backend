@@ -26,7 +26,14 @@ func GetAllUsers(c *gin.Context) {
 }
 
 func GetAllUsersDepartments(c *gin.Context) {
+	departments := []string{}
 
+	if err := config.DB.Model(&models.User{}).Select("department").Find(&departments).Error; err != nil {
+		helpers.DisplayErrorMsg(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, departments)
 }
 
 func CreateUser(c *gin.Context) {
