@@ -20,6 +20,42 @@ func GetAllIssues(c *gin.Context) {
 	c.JSON(http.StatusOK, issues)
 }
 
+func FilterIssuesByDepartment(c *gin.Context) {
+	queryData := helpers.GetQueryData(c, "department")
+	issues := []models.Issue{}
+
+	if err := config.DB.Where("department = ?", queryData).Find(&issues).Error; err != nil {
+		helpers.DisplayErrorMsg(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, issues)
+}
+
+func FilterIssuesByMonitoringSystem(c *gin.Context) {
+	queryData := helpers.GetQueryData(c, "monitoring_system")
+	issues := []models.Issue{}
+
+	if err := config.DB.Where("monitoring_system = ?", queryData).Find(&issues).Error; err != nil {
+		helpers.DisplayErrorMsg(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, issues)
+}
+
+func FilterIssuesByIssueCause(c *gin.Context) {
+	queryData := helpers.GetQueryData(c, "issue_cause")
+	issues := []models.Issue{}
+
+	if err := config.DB.Where("issue_cause = ?", queryData).Find(&issues).Error; err != nil {
+		helpers.DisplayErrorMsg(c, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, issues)
+}
+
 func CreateIssue(c *gin.Context) {
 	createIssueBody := models.CreateIssueBody{}
 
