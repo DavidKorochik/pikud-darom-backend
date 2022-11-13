@@ -19,6 +19,7 @@ func main() {
 	router := gin.Default()
 
 	routes.IssueRoutes(router)
+	routes.UserRoutes(router)
 
 	port := os.Getenv("PORT")
 

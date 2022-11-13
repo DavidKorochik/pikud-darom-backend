@@ -38,8 +38,6 @@ func CreateIssue(c *gin.Context) {
 	c.JSON(http.StatusCreated, newIssue)
 }
 
-// Keep the updating from here!!!
-
 func UpdateIssue(c *gin.Context) {
 	id := helpers.GetParamData(c, "id")
 	updateIssueBody := models.UpdatedIssueBody{}

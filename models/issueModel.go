@@ -8,7 +8,7 @@ import (
 )
 
 type Issue struct {
-	IssueID               uuid.UUID `json:"issue_id" gorm:"type:uuid;primary_key;not null;default:uuid_generate_v4()"`
+	IssueID               uuid.UUID `json:"issue_id" gorm:"type:uuid;primaryKey;not null;default:uuid_generate_v4()"`
 	Date                  string    `json:"date" gorm:"not null" binding:"required" time_format:"2006-01-02"`
 	Hour                  string    `json:"hour" gorm:"not null" binding:"required" time_format:"15:04:05"`
 	Unit                  string    `json:"unit" gorm:"not null" binding:"required"`

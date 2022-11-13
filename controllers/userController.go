@@ -21,7 +21,7 @@ func init() {
 func GetAllUsers(c *gin.Context) {
 	users := []models.User{}
 
-	if err := config.DB.Find(&users).Error; err != nil {
+	if err := config.DB.Model(&users).Preload("Issue").Find(&users).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 		return
 	}
@@ -41,14 +41,21 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	newUser := models.User{FirstName: userBody.FirstName, LastName: userBody.LastName, PersonalNumber: userBody.PersonalNumber, ArmyEmail: userBody.ArmyEmail, Department: userBody.Department, Issues: userBody.Issues}
+	newUser := models.User{FirstName: userBody.FirstName, LastName: userBody.LastName, PersonalNumber: userBody.PersonalNumber, ArmyEmail: userBody.ArmyEmail, Department: userBody.Department}
 
 	if err := config.DB.Create(&newUser).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 		return
 	}
 
-	c.JSON(http.StatusCreated, newUser)
+	tokenStr, err := generateToken(newUser)
+
+	if err != nil {
+		helpers.DisplayErrorMsg(c, err)
+		return
+	}
+
+	c.JSON(http.StatusCreated, tokenStr)
 }
 
 func LogInUser(c *gin.Context) {
@@ -65,12 +72,14 @@ func LogInUser(c *gin.Context) {
 
 	if err != nil {
 		helpers.DisplayErrorMsg(c, err)
+		return
 	}
 
 	tokenStr, tokenErr := generateToken(userFoundWithEmail)
 
 	if tokenErr != nil {
 		helpers.DisplayErrorMsg(c, tokenErr)
+		return
 	}
 
 	c.JSON(http.StatusOK, tokenStr)
