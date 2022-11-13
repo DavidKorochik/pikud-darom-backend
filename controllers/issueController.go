@@ -13,6 +13,7 @@ func GetAllIssues(c *gin.Context) {
 
 	if err := config.DB.Find(&issues).Error; err != nil {
 		displayErrorMsg(c, err)
+		return
 	}
 
 	c.JSON(http.StatusOK, issues)
@@ -23,12 +24,14 @@ func CreateIssue(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&createIssueBody); err != nil {
 		displayErrorMsg(c, err)
+		return
 	}
 
 	newIssue := models.Issue{Date: createIssueBody.Date, Hour: createIssueBody.Hour, Unit: createIssueBody.Unit, Topic: createIssueBody.Topic, SpecificTopic: createIssueBody.SpecificTopic, MonitoringType: createIssueBody.MonitoringType, MonitoringSystem: createIssueBody.MonitoringSystem, IssueCause: createIssueBody.IssueCause, ResponsibleDepartment: createIssueBody.ResponsibleDepartment, Status: createIssueBody.Status}
 
 	if err := config.DB.Create(&newIssue).Error; err != nil {
 		displayErrorMsg(c, err)
+		return
 	}
 
 	c.JSON(http.StatusCreated, newIssue)
@@ -43,11 +46,12 @@ func UpdateIssue(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&updateIssueBody); err != nil {
 		displayErrorMsg(c, err)
+		return
 	}
 
 	if err := config.DB.Model(&issue).Updates(models.Issue{Date: updateIssueBody.Date, Hour: updateIssueBody.Hour, Unit: updateIssueBody.Unit, Topic: updateIssueBody.Topic, SpecificTopic: updateIssueBody.SpecificTopic, MonitoringType: updateIssueBody.MonitoringType, MonitoringSystem: updateIssueBody.MonitoringSystem, IssueCause: updateIssueBody.IssueCause, ResponsibleDepartment: updateIssueBody.ResponsibleDepartment, Status: updateIssueBody.Status}).Error; err != nil {
 		displayErrorMsg(c, err)
-
+		return
 	}
 
 	c.JSON(http.StatusOK, issue)
@@ -59,7 +63,7 @@ func DeleteIssue(c *gin.Context) {
 
 	if err := config.DB.Delete(&deletedIssue).Error; err != nil {
 		displayErrorMsg(c, err)
-
+		return
 	}
 
 	c.JSON(http.StatusOK, deletedIssue)
@@ -83,5 +87,4 @@ func getParamData(c *gin.Context, param string) string {
 
 func displayErrorMsg(c *gin.Context, err error) {
 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	return
 }
