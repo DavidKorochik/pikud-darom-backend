@@ -20,6 +20,7 @@ func main() {
 
 	routes.IssueRoutes(router)
 	routes.UserRoutes(router)
+	routes.AuthRoutes(router)
 
 	port := os.Getenv("PORT")
 
