@@ -26,7 +26,7 @@ func LogInUser(c *gin.Context) {
 		return
 	}
 
-	tokenStr, tokenErr := generateToken(userFoundWithEmail)
+	tokenStr, tokenErr := helpers.GenerateToken(userFoundWithEmail)
 
 	if tokenErr != nil {
 		helpers.DisplayErrorMsg(c, tokenErr)

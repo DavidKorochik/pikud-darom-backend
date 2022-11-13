@@ -2,15 +2,12 @@ package controllers
 
 import (
 	"net/http"
-	"os"
-	"time"
 
 	"github.com/DavidKorochik/pikud-darom-backend/config"
 	"github.com/DavidKorochik/pikud-darom-backend/helpers"
 	"github.com/DavidKorochik/pikud-darom-backend/initializers"
 	"github.com/DavidKorochik/pikud-darom-backend/models"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
 )
 
 func init() {
@@ -52,7 +49,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	tokenStr, err := generateToken(newUser)
+	tokenStr, err := helpers.GenerateToken(newUser)
 
 	if err != nil {
 		helpers.DisplayErrorMsg(c, err)
@@ -77,23 +74,6 @@ func DeleteUser(c *gin.Context) {
 }
 
 // Helpers
-
-func generateToken(u models.User) (string, error) {
-	jwtSecret := os.Getenv("JWT_SECRET")
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": u.UserID,
-		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
-	})
-
-	tokenStr, err := token.SignedString(jwtSecret)
-
-	if err != nil {
-		return "", err
-	}
-
-	return tokenStr, nil
-}
 
 func findUserById(id string, c *gin.Context) models.User {
 	user := models.User{}
