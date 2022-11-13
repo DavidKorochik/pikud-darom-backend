@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/DavidKorochik/pikud-darom-backend/config"
+	"github.com/DavidKorochik/pikud-darom-backend/initializers"
 	"github.com/DavidKorochik/pikud-darom-backend/models"
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,11 +14,7 @@ import (
 var err error
 
 func init() {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatal("Error has occured while reading the .env file")
-	}
+	initializers.LoadEnvVariables()
 }
 
 func DBConnection() {

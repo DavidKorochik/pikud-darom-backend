@@ -6,8 +6,10 @@ import (
 )
 
 func IssueRoutes(router *gin.Engine) {
-	router.GET("/api/issues", controllers.GetAllIssues)
-	router.POST("/api/issues", controllers.CreateIssue)
-	router.PUT("/api/issues/:id", controllers.UpdateIssue)
-	router.DELETE("/api/issues/:id", controllers.DeleteIssue)
+	api := router.Group("/api")
+
+	api.GET("/issues", controllers.GetAllIssues)
+	api.POST("/issues", controllers.CreateIssue)
+	api.PUT("/issues/:id", controllers.UpdateIssue)
+	api.DELETE("/issues/:id", controllers.DeleteIssue)
 }
