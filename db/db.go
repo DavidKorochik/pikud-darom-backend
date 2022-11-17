@@ -14,7 +14,7 @@ import (
 var err error
 
 func init() {
-	initializers.LoadEnvVariables()
+	initializers.LoadEnvVariables("config.env")
 }
 
 func DBConnection() {
