@@ -2,12 +2,13 @@ package routes
 
 import (
 	"github.com/DavidKorochik/pikud-darom-backend/controllers"
-	"github.com/DavidKorochik/pikud-darom-backend/middleware"
 	"github.com/gin-gonic/gin"
 )
 
+// .Use(middleware.AuthToken)
+
 func IssueRoutes(router *gin.Engine) {
-	api := router.Group("/api").Use(middleware.AuthToken)
+	api := router.Group("/api")
 
 	api.GET("/issues", controllers.GetAllIssues)
 	api.GET("/issues/department", controllers.FilterIssuesByDepartment)

@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	initializers.LoadEnvVariables()
+	initializers.LoadEnvVariables("config.env")
 }
 
 func AuthToken(c *gin.Context) {
