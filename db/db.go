@@ -25,7 +25,8 @@ func DBConnection() {
 		log.Fatal("Error has occured while trying to connect to the database")
 	}
 
-	config.DB.AutoMigrate(&models.Issue{}, &models.User{})
+	config.DB.AutoMigrate(&models.Issue{})
+	config.DB.AutoMigrate(&models.User{})
 
 	log.Print("Connected to the database")
 }

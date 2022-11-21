@@ -16,6 +16,7 @@ type Issue struct {
 	SpecificTopic         string    `json:"specific_topic" gorm:"not null" binding:"required"`
 	MonitoringType        string    `json:"monitoring_type" gorm:"not null" binding:"required"`
 	MonitoringSystem      string    `json:"monitoring_system" binding:"required"`
+	UserID                uuid.UUID `json:"user_id"`
 	IssueCause            string    `json:"issue_cause" gorm:"not null" binding:"required"`
 	ResponsibleDepartment string    `json:"responsible_department" gorm:"not null" binding:"required"`
 	Status                string    `json:"status" gorm:"default:'handling'"`
