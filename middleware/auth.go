@@ -40,7 +40,7 @@ func AuthToken(c *gin.Context) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 
-		if err := config.DB.Where("user_id = ?", claims["sub"]).First(&user).Error; err != nil {
+		if err := config.DB.Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
 			helpers.DisplayErrorMsg(c, err)
 			return
 		}
