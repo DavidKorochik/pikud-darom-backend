@@ -17,7 +17,7 @@ func init() {
 func GetAllUsers(c *gin.Context) {
 	users := []models.User{}
 
-	if err := config.DB.Model(&users).Preload("Issue").Find(&users).Error; err != nil {
+	if err := config.DB.Model(&users).Preload("Issues").Find(&users).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 		return
 	}
