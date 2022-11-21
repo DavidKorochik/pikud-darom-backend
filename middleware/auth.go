@@ -21,13 +21,9 @@ func init() {
 func AuthToken(c *gin.Context) {
 	user := models.User{}
 	tokenSecret := os.Getenv("JWT_SECRET")
-	tokenStr, err := c.Cookie("x-auth-token")
+	tokenStr := helpers.ExtractToken(c.Request)
 
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User is not authorized"})
-	}
-
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+	token, _ := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header)
 		}
@@ -40,7 +36,7 @@ func AuthToken(c *gin.Context) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 
-		if err := config.DB.Where("user_id = ?", claims["sub"]).First(&user).Error; err != nil {
+		if err := config.DB.Where("user_id = ?", claims["user_id"]).First(&user).Error; err != nil {
 			helpers.DisplayErrorMsg(c, err)
 			return
 		}

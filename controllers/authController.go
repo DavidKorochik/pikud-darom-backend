@@ -33,7 +33,7 @@ func LogInUser(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("x-auth-token", tokenStr, 3600*24*30, "", "", false, true)
+	c.Header("x-auth-token", tokenStr)
 
 	c.JSON(http.StatusOK, tokenStr)
 }

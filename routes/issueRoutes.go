@@ -7,13 +7,16 @@ import (
 )
 
 func IssueRoutes(router *gin.Engine) {
-	api := router.Group("/api").Use(middleware.AuthToken)
+	api := router.Group("/api")
 
-	api.GET("/issues", controllers.GetAllIssues)
-	api.GET("/issues/department", controllers.FilterIssuesByDepartment)
-	api.GET("/issues/monitoringSystem", controllers.FilterIssuesByMonitoringSystem)
-	api.GET("/issues/issueCause", controllers.FilterIssuesByIssueCause)
-	api.POST("/issues", controllers.CreateIssue)
-	api.PUT("/issues/:id", controllers.UpdateIssue)
-	api.DELETE("/issues/:id", controllers.DeleteIssue)
+	api.Use(middleware.AuthToken)
+	{
+		api.GET("/issues", controllers.GetAllIssues)
+		api.GET("/issues/department", controllers.FilterIssuesByDepartment)
+		api.GET("/issues/monitoringSystem", controllers.FilterIssuesByMonitoringSystem)
+		api.GET("/issues/issueCause", controllers.FilterIssuesByIssueCause)
+		api.POST("/issues", controllers.CreateIssue)
+		api.PUT("/issues/:id", controllers.UpdateIssue)
+		api.DELETE("/issues/:id", controllers.DeleteIssue)
+	}
 }
