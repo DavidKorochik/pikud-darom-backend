@@ -24,5 +24,5 @@ func main() {
 
 	port := os.Getenv("PORT")
 
-	router.Run(":" + port)
+	router.Run(port)
 }
