@@ -92,3 +92,55 @@ func TestCreateIssue(t *testing.T) {
 	a.Equal(http.StatusCreated, w.Code)
 	a.Equal(expected, mockIssue)
 }
+
+func TestUpdateIssue(t *testing.T) {
+	jsonIssueStr := []byte(`{"unit": "Baah 35"}`)
+	expected := models.Issue{}
+
+	a, w, r := helpers.CreateTestSuite(t)
+
+	r.PUT("/issues/1fceea4f-9e18-4a5f-b211-534c7ec817f9", controllers.UpdateIssue)
+
+	req, err := http.NewRequest(http.MethodPut, "/issues/1fceea4f-9e18-4a5f-b211-534c7ec817f9", bytes.NewBuffer(jsonIssueStr))
+
+	if err != nil {
+		a.Error(err)
+		return
+	}
+
+	r.ServeHTTP(w, req)
+
+	if err := json.Unmarshal(w.Body.Bytes(), &expected); err != nil {
+		a.Error(err)
+		return
+	}
+
+	a.Equal(http.StatusOK, w.Code)
+	a.Equal("Baah 35", expected.Unit)
+	a.Equal(time.Now(), expected.UpdatedAt)
+}
+
+func TestDeleteIssue(t *testing.T) {
+	deletedIssue := models.Issue{}
+
+	a, w, r := helpers.CreateTestSuite(t)
+
+	r.DELETE("/issues/1fceea4f-9e18-4a5f-b211-534c7ec817f9", controllers.DeleteIssue)
+
+	req, err := http.NewRequest(http.MethodDelete, "/issues/1fceea4f-9e18-4a5f-b211-534c7ec817f9", nil)
+
+	if err != nil {
+		a.Error(err)
+		return
+	}
+
+	if err := json.Unmarshal(w.Body.Bytes(), &deletedIssue); err != nil {
+		a.Error(err)
+		return
+	}
+
+	r.ServeHTTP(w, req)
+
+	a.Equal(http.StatusOK, w.Code)
+	a.Equal(time.Now(), deletedIssue.DeletedAt)
+}
