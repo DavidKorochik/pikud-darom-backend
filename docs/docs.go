@@ -24,8 +24,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Pikud Darom Backend Service - Golang Edition",
+	Description:      "This is the Golang edition of the computer fauls program I've built for Pikud Darom, just for practice purpuse.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

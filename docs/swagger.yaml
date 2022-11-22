@@ -1,4 +1,21 @@
 info:
-  contact: {}
-paths: {}
-swagger: "2.0"
+  title: Pikud Darom Backend Service - Golang Edition
+  description: |-
+    This is the Golang edition of the computer fauls program I've built for Pikud Darom, just for practice purpuse.
+tags:
+  - name: Issues
+    description: Operations we can make on issues
+  - name: Users
+    description: Operations we can make on users
+  - name: Auth
+    description: Includes login operation
+paths:
+  /api/issues
+    get:
+      consumes:
+      - application/json
+      description: Gets all the issues in our database
+      responses:
+        "200":
+          description: success
+swagger: '2.0'
