@@ -25,7 +25,7 @@ func main() {
 	routes.UserRoutes(router)
 	routes.AuthRoutes(router)
 
-	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(port)
 }
