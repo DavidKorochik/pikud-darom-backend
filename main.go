@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/DavidKorochik/pikud-darom-backend/db"
+	_ "github.com/DavidKorochik/pikud-darom-backend/docs"
 	"github.com/DavidKorochik/pikud-darom-backend/initializers"
 	"github.com/DavidKorochik/pikud-darom-backend/routes"
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,12 @@ import (
 func init() {
 	initializers.LoadEnvVariables("config.env")
 }
+
+// If a package that needs to be in use with the CMD doesn't work, we have 2 options:
+// 1. Create our project in the GO workspace.
+// 2. Run the next command from out terminal: export PATH=$(go env GOPATH)/bin:$PATH.
+// Notice that this command will be available only to the specific terminal from where we executed the command.
+// If we'll open another terminal, packages that we want to execute from within the CMD won't work.
 
 func main() {
 	db.DBConnection()
