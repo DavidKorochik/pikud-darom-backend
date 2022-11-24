@@ -1,4 +1,4 @@
-# Pikud Darim Backend Service
+# Pikud Darom Backend Service
 
 This is the backend service for the project I'm developing for Pikud Darom
 
@@ -17,7 +17,7 @@ Please make sure to update tests as appropriate
 
 ## Database Diagram
 
-![plot](C:\Users\User\Downloads\Pikud-Darom.png)
+![diagram](C:\Users\User\Downloads\Pikud-Darom.png)
 
 ## Models Schema
 
