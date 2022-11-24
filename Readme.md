@@ -2,28 +2,29 @@
 
 This is the backend service for the project I'm developing for Pikud Darom
 
-## How to start the program?
+# How to start the program?
 
 ```bash
 go run main.go
 ```
 
-## Contributing
+# Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
 Please make sure to update tests as appropriate
 
-## Database Diagram - One to Many Relationship (One user with many issues)
+# Database Diagram - One to Many Relationship (One user with many issues)
 
 ![Database Diagram](/images/database-diagram.jpg)
 
-## Models Schema
+# Models Schema
 
-# The Issue Model
+## The Issue Model
 
 ```golang
+type Issue struct {
 	IssueID               uuid.UUID
 	Date                  string
 	Hour                  string
@@ -39,11 +40,13 @@ Please make sure to update tests as appropriate
 	CreatedAt             time.Time
 	UpdatedAt             time.Time
 	DeletedAt             time.Time
+}
 ```
 
-# The User Model
+## The User Model
 
 ```golang
+type User struct {
 	UserID         uuid.UUID
 	FirstName      string
 	LastName       string
@@ -54,4 +57,5 @@ Please make sure to update tests as appropriate
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 	DeletedAt      time.Time
+}
 ```
