@@ -10,6 +10,13 @@ import (
 )
 
 func GetAllIssues(c *gin.Context) {
+	_, err := c.Cookie("x-auth-token")
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authorized"})
+		return
+	}
+
 	issues := []models.Issue{}
 
 	if err := config.DB.Find(&issues).Error; err != nil {

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/DavidKorochik/pikud-darom-backend/helpers"
 	"github.com/DavidKorochik/pikud-darom-backend/models"
@@ -33,7 +34,7 @@ func LogInUser(c *gin.Context) {
 		return
 	}
 
-	c.Header("x-auth-token", tokenStr)
+	c.SetCookie("x-auth-token", tokenStr, int(time.Now().Unix()), "", "", false, true)
 
 	c.JSON(http.StatusOK, tokenStr)
 }

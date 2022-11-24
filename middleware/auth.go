@@ -21,7 +21,11 @@ func init() {
 func AuthToken(c *gin.Context) {
 	user := models.User{}
 	tokenSecret := os.Getenv("JWT_SECRET")
-	tokenStr := helpers.ExtractToken(c.Request)
+	tokenStr, err := c.Cookie("x-auth-token")
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authorized lol"})
+	}
 
 	token, _ := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -32,7 +36,7 @@ func AuthToken(c *gin.Context) {
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		if time.Now().Unix() > claims["exp"].(int64) {
+		if float64(time.Now().Unix()) > claims["exp"].(float64) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 
