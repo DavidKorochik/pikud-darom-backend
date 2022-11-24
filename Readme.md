@@ -15,7 +15,7 @@ to discuss what you would like to change.
 
 Please make sure to update tests as appropriate
 
-## Database Diagram
+## Database Diagram - One to Many Relationship (One user with many issues)
 
 ![Database Diagram](/images/database-diagram.jpg)
 
