@@ -11,5 +11,15 @@ services:
       POSTGRES_DB: pikud-darom
     volumes:
       - db:/var/lib/postgresql/data
+  server:
+    image: david2kk/pikud-darom-golang
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+      - DB_URL=${DB_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - ./:/usr/src/app
 volumes:
   db:
