@@ -7,15 +7,16 @@ import (
 	"github.com/DavidKorochik/pikud-darom-backend/helpers"
 	"github.com/DavidKorochik/pikud-darom-backend/models"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 func GetAllIssues(c *gin.Context) {
-	_, err := c.Cookie("x-auth-token")
+	// _, err := c.Cookie("x-auth-token")
 
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authorized"})
-		return
-	}
+	// if err != nil {
+	// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authorized"})
+	// 	return
+	// }
 
 	issues := []models.Issue{}
 
@@ -65,13 +66,14 @@ func FilterIssuesByIssueCause(c *gin.Context) {
 
 func CreateIssue(c *gin.Context) {
 	createIssueBody := models.CreateIssueBody{}
+	userID, _ := c.Get("userID")
 
 	if err := c.ShouldBindJSON(&createIssueBody); err != nil {
 		helpers.DisplayErrorMsg(c, err)
 		return
 	}
 
-	newIssue := models.Issue{Date: createIssueBody.Date, Hour: createIssueBody.Hour, Unit: createIssueBody.Unit, Topic: createIssueBody.Topic, SpecificTopic: createIssueBody.SpecificTopic, MonitoringType: createIssueBody.MonitoringType, MonitoringSystem: createIssueBody.MonitoringSystem, IssueCause: createIssueBody.IssueCause, ResponsibleDepartment: createIssueBody.ResponsibleDepartment, Status: createIssueBody.Status}
+	newIssue := models.Issue{Date: createIssueBody.Date, UserID: userID.(uuid.UUID), Hour: createIssueBody.Hour, Unit: createIssueBody.Unit, Topic: createIssueBody.Topic, SpecificTopic: createIssueBody.SpecificTopic, MonitoringType: createIssueBody.MonitoringType, MonitoringSystem: createIssueBody.MonitoringSystem, IssueCause: createIssueBody.IssueCause, ResponsibleDepartment: createIssueBody.ResponsibleDepartment, Status: createIssueBody.Status}
 
 	if err := config.DB.Create(&newIssue).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)

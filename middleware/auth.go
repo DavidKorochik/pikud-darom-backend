@@ -24,7 +24,7 @@ func AuthToken(c *gin.Context) {
 	tokenStr, err := c.Cookie("x-auth-token")
 
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authorized lol"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not authorized"})
 	}
 
 	token, _ := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
@@ -45,7 +45,7 @@ func AuthToken(c *gin.Context) {
 			return
 		}
 
-		c.Set("user", user)
+		c.Set("userID", user.UserID)
 		c.Next()
 	} else {
 		c.AbortWithStatus(http.StatusUnauthorized)
