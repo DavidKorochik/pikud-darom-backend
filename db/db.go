@@ -27,6 +27,7 @@ func DBConnection() {
 
 	config.DB.AutoMigrate(&models.Issue{})
 	config.DB.AutoMigrate(&models.User{})
+	config.DB.Set("gorm:auto_preload", true)
 
 	log.Print("Connected to the database")
 }

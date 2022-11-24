@@ -9,14 +9,13 @@ import (
 )
 
 type User struct {
-	UserID         uuid.UUID `json:"user_id" gorm:"type:uuid;primaryKey;not null;default:uuid_generate_v4()"`
+	UserID         uuid.UUID `json:"user_id" gorm:"type:uuid;primary_key;not null;default:uuid_generate_v4()"`
 	FirstName      string    `json:"first_name" gorm:"not null" binding:"required"`
 	LastName       string    `json:"last_name" gorm:"not null" binding:"required"`
 	ArmyEmail      string    `json:"army_email" gorm:"not null;unique" binding:"required,email"`
 	PersonalNumber string    `json:"personal_number" gorm:"not null;unique" binding:"required,len=7"`
 	Department     string    `json:"department" gorm:"not null" binding:"required"`
-	IssueID        uuid.UUID `json:"-"`
-	Issues         []Issue   `json:"issues,omitempty" gorm:"foreignKey:IssueID;references:IssueID"`
+	Issues         *[]Issue  `json:"issues,omitempty" gorm:"foreignKey:IssueID"`
 	CreatedAt      time.Time `json:"created_at"`
 	UpdatedAt      time.Time `json:"updated_at"`
 	DeletedAt      time.Time `json:"deleted_at"`

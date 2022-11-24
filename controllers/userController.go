@@ -18,9 +18,16 @@ func init() {
 func GetAllUsers(c *gin.Context) {
 	users := []models.User{}
 
-	if err := config.DB.Model(&users).Preload("Issues").Find(&users).Error; err != nil {
+	if err := config.DB.Preload("Issues").Find(&users).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 		return
+	}
+
+	for _, user := range users {
+		if err := config.DB.Model(&models.Issue{}).Where("user_id = ?", user.UserID).Find(&user.Issues).Error; err != nil {
+			helpers.DisplayErrorMsg(c, err)
+			return
+		}
 	}
 
 	c.JSON(http.StatusOK, users)

@@ -8,15 +8,15 @@ import (
 )
 
 type Issue struct {
-	IssueID               uuid.UUID `json:"issue_id" gorm:"type:uuid;primaryKey;not null;default:uuid_generate_v4()"`
+	IssueID               uuid.UUID `json:"issue_id" gorm:"type:uuid;primary_key;not null;default:uuid_generate_v4()"`
 	Date                  string    `json:"date" gorm:"not null" binding:"required" time_format:"2006-01-02"`
 	Hour                  string    `json:"hour" gorm:"not null" binding:"required" time_format:"15:04:05"`
 	Unit                  string    `json:"unit" gorm:"not null" binding:"required"`
 	Topic                 string    `json:"topic" gorm:"not null" binding:"required"`
 	SpecificTopic         string    `json:"specific_topic" gorm:"not null" binding:"required"`
 	MonitoringType        string    `json:"monitoring_type" gorm:"not null" binding:"required"`
+	UserID                uuid.UUID `json:"user_id,omitempty"`
 	MonitoringSystem      string    `json:"monitoring_system" binding:"required"`
-	UserID                uuid.UUID `json:"user_id"`
 	IssueCause            string    `json:"issue_cause" gorm:"not null" binding:"required"`
 	ResponsibleDepartment string    `json:"responsible_department" gorm:"not null" binding:"required"`
 	Status                string    `json:"status" gorm:"default:'handling'"`
