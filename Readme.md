@@ -17,7 +17,7 @@ Please make sure to update tests as appropriate
 
 ## Database Diagram
 
-<img src="../../../Downloads/Pikud-Darom.png" alt="Database Diagram">
+![Database Diagram](/images/database-diagram.jpg)
 
 ## Models Schema
 
