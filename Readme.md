@@ -15,6 +15,43 @@ to discuss what you would like to change.
 
 Please make sure to update tests as appropriate
 
-## Database Schema
+## Database Diagram
 
 ![alt text](https://dbdiagram.io/d/637f6d36c9abfc6111750074)
+
+## Models Schema
+
+# The Issue Model
+
+```golang
+	IssueID               uuid.UUID
+	Date                  string
+	Hour                  string
+	Unit                  string
+	Topic                 string
+	SpecificTopic         string
+	MonitoringType        string
+	UserID                uuid.UUID
+	MonitoringSystem      string
+	IssueCause            string
+	ResponsibleDepartment string
+	Status                string
+	CreatedAt             time.Time
+	UpdatedAt             time.Time
+	DeletedAt             time.Time
+```
+
+# The User Model
+
+```golang
+	UserID         uuid.UUID
+	FirstName      string
+	LastName       string
+	ArmyEmail      string
+	PersonalNumber string
+	Department     string
+	Issues         *[]Issue
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	DeletedAt      time.Time
+```
