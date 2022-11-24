@@ -17,7 +17,7 @@ Please make sure to update tests as appropriate
 
 ## Database Diagram
 
-![plot]("C:\Users\User\Downloads\Pikud-Darom.png")
+![plot](C:\Users\User\Downloads\Pikud-Darom.png)
 
 ## Models Schema
 
