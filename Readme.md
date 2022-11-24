@@ -17,7 +17,7 @@ Please make sure to update tests as appropriate
 
 ## Database Diagram
 
-![alt text](https://dbdiagram.io/d/637f6d36c9abfc6111750074)
+![plot]("C:\Users\User\Downloads\Pikud-Darom.png")
 
 ## Models Schema
 
