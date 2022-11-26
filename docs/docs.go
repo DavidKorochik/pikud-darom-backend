@@ -5,24 +5,206 @@ package docs
 import "github.com/swaggo/swag"
 
 const docTemplate = `{
-    "schemes": {{ marshal .Schemes }},
-    "swagger": "2.0",
-    "info": {
-        "description": "{{escape .Description}}",
-        "title": "{{.Title}}",
-        "contact": {},
-        "version": "{{.Version}}"
-    },
-    "host": "{{.Host}}",
-    "basePath": "{{.BasePath}}",
-    "paths": {}
+    {
+        "swagger": "2.0",
+        "info": {
+          "version": "1.0.0",
+          "title": "Pikud Darom Backend Service - Golang Edition",
+          "description": "This is the Golang edition of the computer fauls program I've built for Pikud Darom, just for practice purpuse."
+        },
+        "paths": {
+          "/api/issues": {
+            "get": {
+              "tags": [
+                "issues"
+              ],
+              "description": "Get all the issues when authorized",
+              "responses": {
+                "200": {
+                  "description": "List of all the issues",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/Issue"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "post": {
+              "tags": [
+                "issues"
+              ],
+              "description": "Create an issue when authorized",
+              "responses": {
+                "201": {
+                  "description": "Newly created issue",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "items": {
+                          "$ref": "#/components/Schemas/Issue"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "put": {
+              "tags": [
+                "issues"
+              ],
+              "description": "Update an issue when authorized",
+              "parameters": [
+                {
+                  "description": "Some issue id",
+                  "in": "path",
+                  "name": "id",
+                  "required": true,
+                  "type": "uuid"
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Issue updated",
+                  "schema": {
+                    "type": "object",
+                    "items": {
+                      "$ref": "#/components/Schemas/Issue"
+                    }
+                  }
+                },
+                "400": {
+                  "description": "Bad request, we need an issue id",
+                  "schema": {
+                    "type": "json"
+                  }
+                },
+                "404": {
+                  "description": "Cannot find the issue",
+                  "schema": {
+                    "type": "json"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "items": {
+                      "$ref": "#components/Schemas/UpdateIssue"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "Issue": {
+              "type": "object",
+              "properties": {
+                "issue_id": {
+                  "type": "uuid"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "hour": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "topic": {
+                  "type": "string"
+                },
+                "specific_topic": {
+                  "type": "string"
+                },
+                "monitoring_type": {
+                  "type": "string"
+                },
+                "monitoring_system": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "uuid"
+                },
+                "issue_cause": {
+                  "type": "string"
+                },
+                "responsible_department": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "timestamptz"
+                },
+                "updated_at": {
+                  "type": "timestamptz"
+                },
+                "deleted_at": {
+                  "type": "timestamptz"
+                }
+              }
+            },
+            "UpdateIssue": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string"
+                },
+                "hour": {
+                  "type": "string"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "topic": {
+                  "type": "string"
+                },
+                "specific_topic": {
+                  "type": "string"
+                },
+                "monitoring_type": {
+                  "type": "string"
+                },
+                "monitoring_system": {
+                  "type": "string"
+                },
+                "issue_cause": {
+                  "type": "string"
+                },
+                "responsible_department": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0.0",
+	Host:             "localhost:5000",
 	Schemes:          []string{},
 	Title:            "Pikud Darom Backend Service - Golang Edition",
 	Description:      "This is the Golang edition of the computer fauls program I've built for Pikud Darom, just for practice purpuse.",

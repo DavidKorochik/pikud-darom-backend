@@ -1,21 +1,127 @@
 info:
+  version: "1.0.0"
   title: Pikud Darom Backend Service - Golang Edition
   description: |-
     This is the Golang edition of the computer fauls program I've built for Pikud Darom, just for practice purpuse.
-tags:
-  - name: Issues
-    description: Operations we can make on issues
-  - name: Users
-    description: Operations we can make on users
-  - name: Auth
-    description: Includes login operation
 paths:
-  /api/issues
+  /api/issues:
     get:
-      consumes:
-      - application/json
-      description: Gets all the issues in our database
+      tags:
+        - issues
+      description: Get all the issues when authorized
       responses:
-        "200":
-          description: success
-swagger: '2.0'
+        '200':
+          description: List of all the issues
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+  /api/issues:
+    post:
+      tags:
+        - issues
+      description: Create an issue when authorized
+      responses:
+        '201':
+          description: Newly created issue
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/Schemas/Issue'
+  /api/issues:
+    put:
+      tags:
+        - issues
+      description: Update an issue when authorized
+      parameters:
+      - description: Some issue id
+        in: path
+        name: id
+        required: true
+        type: uuid
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: Issue updated
+          schema:
+            type: object
+            items:
+              $ref: '#/components/Schemas/Issue'
+        '400':
+          description: Bad request, we need an issue id
+          schema:
+            type: json
+        '404':
+          description: Cannot find the issue
+          schema:
+            type: json
+      content:
+        application/json:
+          schema:
+            type: object
+            items:
+              $ref: '#components/Schemas/UpdateIssue'
+
+components:
+  schemas:
+    Issue:
+      type: object
+      properties:
+        issue_id:
+          type: uuid
+        date:
+          type: string
+        hour:
+          type: string
+        unit:
+          type: string
+        topic:
+          type: string
+        specific_topic:
+          type: string
+        monitoring_type:
+          type: string
+        monitoring_system:
+          type: string
+        user_id:
+          type: uuid
+        issue_cause:
+          type: string
+        responsible_department:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: timestamptz
+        updated_at:
+          type: timestamptz
+        deleted_at:
+          type: timestamptz
+    UpdateIssue:
+      type: object
+      properties:
+        date:
+          type: string
+        hour:
+          type: string
+        unit:
+          type: string
+        topic:
+          type: string
+        specific_topic:
+          type: string
+        monitoring_type:
+          type: string
+        monitoring_system:
+          type: string
+        issue_cause:
+          type: string
+        responsible_department:
+          type: string
+        status:
+          type: string
