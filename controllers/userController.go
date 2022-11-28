@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/DavidKorochik/pikud-darom-backend/config"
@@ -9,6 +10,10 @@ import (
 	"github.com/DavidKorochik/pikud-darom-backend/initializers"
 	"github.com/DavidKorochik/pikud-darom-backend/models"
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	mtx sync.RWMutex
 )
 
 func init() {

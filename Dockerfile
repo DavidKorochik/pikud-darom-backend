@@ -1,15 +1,15 @@
 FROM golang:1.19
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY go.mod ./
+
+COPY go.sum ./
 
 RUN go mod download
 
 COPY . .
 
-RUN go build -o /docker-gs-ping
-
 EXPOSE 5000
 
-CMD [ "/docker-gs-ping" ]
+CMD ["go", "run", "main.go"]
