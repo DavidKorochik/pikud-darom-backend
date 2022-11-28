@@ -23,9 +23,6 @@ func init() {
 func GetAllUsers(c *gin.Context) {
 	users := []models.User{}
 
-	mtx.RLock()
-	defer mtx.RUnlock()
-
 	if err := config.DB.Preload("Issues").Find(&users).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 		return
@@ -43,9 +40,6 @@ func GetAllUsers(c *gin.Context) {
 
 func GetAllUsersDepartments(c *gin.Context) {
 	departments := []string{}
-
-	mtx.RLock()
-	defer mtx.RUnlock()
 
 	if err := config.DB.Model(&models.User{}).Select("department").Find(&departments).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
@@ -65,14 +59,10 @@ func CreateUser(c *gin.Context) {
 
 	newUser := models.User{FirstName: userBody.FirstName, LastName: userBody.LastName, PersonalNumber: userBody.PersonalNumber, ArmyEmail: userBody.ArmyEmail, Department: userBody.Department}
 
-	mtx.Lock()
-
 	if err := config.DB.Create(&newUser).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 		return
 	}
-
-	mtx.Unlock()
 
 	if err := ifUserExistsThrowErr(newUser.ArmyEmail, c); err != nil {
 		helpers.DisplayErrorMsg(c, err)
@@ -108,9 +98,6 @@ func DeleteUser(c *gin.Context) {
 func findUserById(id string, c *gin.Context) models.User {
 	user := models.User{}
 
-	mtx.RLock()
-	defer mtx.RUnlock()
-
 	if err := config.DB.Where("user_id = ?", id).First(&user).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 	}
@@ -121,9 +108,6 @@ func findUserById(id string, c *gin.Context) models.User {
 func findUserByEmail(email string, c *gin.Context) models.User {
 	user := models.User{}
 
-	mtx.RLock()
-	defer mtx.RUnlock()
-
 	if err := config.DB.Where("army_email = ?", email).First(&user).Error; err != nil {
 		helpers.DisplayErrorMsg(c, err)
 	}
@@ -133,9 +117,6 @@ func findUserByEmail(email string, c *gin.Context) models.User {
 
 func ifUserExistsThrowErr(email string, c *gin.Context) error {
 	user := models.User{}
-
-	mtx.RLock()
-	defer mtx.RUnlock()
 
 	result := config.DB.Where("army_email = ?", email).First(&user)
 
