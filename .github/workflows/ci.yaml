@@ -7,7 +7,7 @@ on:
     branches: ['master']
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     services:
@@ -35,6 +35,9 @@ jobs:
 
       - name: Build
         run: go build -v ./...
+
+      - name: Run
+        run: make start
 
       - name: Test
         run: make test
