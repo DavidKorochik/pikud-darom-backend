@@ -16,7 +16,7 @@ import (
 )
 
 func init() {
-	initializers.LoadEnvVariables("config.env")
+	initializers.LoadEnvVariables("./config.env")
 	db.DBConnection()
 }
 
